@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Size File</title>
+</head>
+<body>
+    <input id="myfiles" multiple type="file" />
+<pre class="container">Selected files:</pre>
+<script>
+const container = document.querySelector(".container");
+const fileInput = document.querySelector("#myfiles");
+
+fileInput.addEventListener("change", () => {
+    let numberOfBytes = 0;
+   // Approximate to the closest prefixed unit
+    for (const file of fileInput.files) {
+            numberOfBytes += file.size;
+          }
+          const units = [
+            "B",
+            "KiB",
+            "MiB",
+            "GiB",
+            "TiB",
+            "PiB",
+            "EiB",
+            "ZiB",
+            "YiB",
+          ];
+          const exponent = Math.min(
+            Math.floor(Math.log(numberOfBytes) / Math.log(1024)),
+            units.length - 1,
+          );
+          const approx = numberOfBytes / 1024 ** exponent;
+          const output =
+            exponent === 0
+              ? `${numberOfBytes} bytes`
+              : `${approx.toFixed(3)} ${
+                  units[exponent]
+                } (${numberOfBytes} bytes)`;
+  for (const file of fileInput.files) {
+    container.innerText += `\n${file.name}`;
+    container.innerText += `\n${output}`;
+  }
+});
+
+
+</script>
+</body>
+</html>
